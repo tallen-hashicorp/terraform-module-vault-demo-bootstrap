@@ -65,12 +65,21 @@ resource "vault_identity_group" "tenant_group" {
   namespace =  vault_namespace.tenant_namespace.path_fq
 
   type     = "internal"
-  policies = [vault_policy.tentant_admin_policy.name]
   member_entity_ids = [ for entity in vault_identity_entity.tenant_entitys: entity.id ]
 
   metadata = {
     version = "2"
   }
+}
+
+resource "vault_identity_group_policies" "policies" {
+  namespace = var.namespace_path
+  policies = [
+    vault_policy.tentant_admin_policy.name
+  ]
+
+  exclusive = false
+  group_id = vault_identity_group.tenant_group.id
 }
 
 resource "vault_auth_backend" "userpass" {
