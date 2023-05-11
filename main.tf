@@ -63,7 +63,7 @@ EOT
 resource "vault_identity_group" "tenant_group" {
   name      = "${var.name}_group"
   namespace =  vault_namespace.tenant_namespace.path_fq
-
+  external_policies = true
   type     = "internal"
   member_entity_ids = [ for entity in vault_identity_entity.tenant_entitys: entity.id ]
 
