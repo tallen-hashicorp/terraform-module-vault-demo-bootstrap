@@ -73,7 +73,7 @@ resource "vault_identity_group" "tenant_group" {
 }
 
 resource "vault_identity_group_policies" "policies" {
-  namespace = var.namespace_path
+  namespace =  vault_namespace.tenant_namespace.path_fq
   policies = [
     vault_policy.tentant_admin_policy.name
   ]
